@@ -1,4 +1,4 @@
-package com.sample.pronunciation;
+package com.sample.pronunciation.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,12 +8,15 @@ import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.widget.FrameLayout;
+
+import com.sample.pronunciation.R;
+import com.sample.pronunciation.Utils.CameraPreview;
+import com.sample.pronunciation.Utils.GlobalConstants;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -29,37 +32,59 @@ import java.util.Locale;
 /**
  * Created by Bharat.
  */
-public class CameraActivity extends AppCompatActivity implements IOCRCallBack{
+public class CameraActivity extends AppCompatActivity {
 
+    public static int cameraOrientation = 0;
+    public static int currentCameraId = 0;
+    public boolean hasContinuousAutoFocus = false;
+    //UI
+    public FrameLayout mCameraPreviewLayout;
+    public FrameLayout mCameraFunctionsLayout;
     // Remaining flags , prefs, orientation variables
     private File imageFile = null;
     private int animation_height = 0;
-    public boolean hasContinuousAutoFocus = false;
     private boolean hasFlash = false;
-    public static int cameraOrientation = 0;
-    public static int currentCameraId = 0;
     private boolean rotationRequired = false;
     private String TAG = "CameraActivity";
     private Animation slide = null;
-
     //Camera related
     private Camera mCamera;
     private CameraPreview mCameraPreview;
     private Camera.Parameters params;
-
-    //UI
-    public FrameLayout mCameraPreviewLayout;
-    public FrameLayout mCameraFunctionsLayout;
     private FloatingActionButton mCaptureButton;
-    private IOCRCallBack mIOCRCallBack;
-
+    /**
+     * Called when the image is saved from the camera
+     */
+    private Camera.PictureCallback mPictureCallBack = new Camera.PictureCallback() {
+        @Override
+        public void onPictureTaken(byte[] data, Camera camera) {
+            File pictureFile = getOutputMediaFile();
+            FileOutputStream fos;
+            if (pictureFile == null) {
+                return;
+            }
+            try {
+                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length, bmOptions);
+                Bitmap halfBitmap = getHalfBitmap(bitmap);
+                fos = new FileOutputStream(pictureFile);
+                halfBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                fos.flush();
+                fos.close();
+                imageFile = pictureFile;
+                mCamera.stopPreview();
+            } catch (IOException e) {
+                Log.d(TAG, "Image taken could not be saved.." + e.toString());
+            }
+        }
+    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        mIOCRCallBack = this;
+
         mCameraPreviewLayout = (FrameLayout) findViewById(R.id.camera_preview);
         mCameraFunctionsLayout = (FrameLayout) findViewById(R.id.camera_functions);
         mCaptureButton = (FloatingActionButton) findViewById(R.id.capture_button);
@@ -93,7 +118,6 @@ public class CameraActivity extends AppCompatActivity implements IOCRCallBack{
         mCamera.startPreview();
     }
 
-
     /**
      *  Releases the camera and preview in onPause()
      * @throws NullPointerException
@@ -103,7 +127,6 @@ public class CameraActivity extends AppCompatActivity implements IOCRCallBack{
         releaseCameraAndPreview();
         super.onPause();
     }
-
 
     /**
      * Stores the temp pref in the user preferences and minimises the app
@@ -138,13 +161,12 @@ public class CameraActivity extends AppCompatActivity implements IOCRCallBack{
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-
     /**
      *  Opens the camera and returns a boolean showing the status
      * @param id
      * @return boolean
      */
-    private boolean safeCameraOpen(int id){
+    private boolean safeCameraOpen(int id) {
         boolean qOpened = false;
         try {
             releaseCameraAndPreview();
@@ -161,50 +183,20 @@ public class CameraActivity extends AppCompatActivity implements IOCRCallBack{
      *  Releases the camera and sets the camera to null
      * @throws NullPointerException
      */
-    private void releaseCameraAndPreview() throws NullPointerException{
-        if(mCameraPreview!=null) {
+    private void releaseCameraAndPreview() throws NullPointerException {
+        if (mCameraPreview != null) {
             mCameraPreview.setCamera(null);
             if (mCamera != null) {
                 mCamera.release();
                 mCamera = null;
             }
-        }else{
+        } else {
             if (mCamera != null) {
                 mCamera.release();
                 mCamera = null;
             }
         }
     }
-
-
-
-    /**
-     * Called when the image is saved from the camera
-     */
-    private Camera.PictureCallback mPictureCallBack = new Camera.PictureCallback() {
-        @Override
-        public void onPictureTaken(byte[] data, Camera camera) {
-            File pictureFile = getOutputMediaFile();
-            FileOutputStream fos;
-            if (pictureFile == null) {
-                return;
-            }
-            try {
-                BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length, bmOptions);
-                Bitmap halfBitmap = getHalfBitmap(bitmap);
-                fos = new FileOutputStream(pictureFile);
-                halfBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
-                fos.flush();
-                fos.close();
-                imageFile = pictureFile;
-                mCamera.stopPreview();
-                new ApiRequestAsync().execute();
-            } catch (IOException e) {
-                Log.d(TAG, "Image taken could not be saved.." + e.toString());
-            }
-        }
-    };
 
     /**
      * Returns the file where the image captured from camera is to be saved
@@ -299,11 +291,6 @@ public class CameraActivity extends AppCompatActivity implements IOCRCallBack{
 
     public void setRotationRequired(boolean rotationRequired) {
         this.rotationRequired = rotationRequired;
-    }
-
-    @Override
-    public void getOCRCallBackResult(String response) {
-        Log.i(TAG, response.toString());
     }
 
 }

@@ -1,4 +1,4 @@
-package com.sample.pronunciation.Utils;
+package com.sample.pronunciation.utils;
 
 public class GlobalConstants {
 

@@ -11,13 +11,13 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.sample.pronunciation.R;
-import com.sample.pronunciation.Views.MainView;
+import com.sample.pronunciation.views.MainView;
 
 public class ResultsFragment extends Fragment implements MainView {
 
     private OnFragmentInteractionListener mListener;
-    private RecyclerView recyclerView;
-    private ProgressBar progressBar;
+    private RecyclerView mRecyclerView;
+    private ProgressBar mProgressBar;
 
     public ResultsFragment() {
     }
@@ -36,8 +36,8 @@ public class ResultsFragment extends Fragment implements MainView {
                              Bundle savedInstanceState) {
 
 
-        View fragmentView = inflater.inflate(R.layout.fragment_history, container, false);
-        recyclerView = (RecyclerView) fragmentView.findViewById(R.id.recyclerView);
+        View fragmentView = inflater.inflate(R.layout.fragment_results_layout, container, false);
+        mRecyclerView = (RecyclerView) fragmentView.findViewById(R.id.recyclerView);
         return fragmentView;
     }
 

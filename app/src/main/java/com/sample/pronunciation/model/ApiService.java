@@ -2,7 +2,7 @@ package com.sample.pronunciation.model;
 
 import android.util.Log;
 
-import com.sample.pronunciation.Utils.GlobalConstants;
+import com.sample.pronunciation.utils.GlobalConstants;
 import com.sample.pronunciation.model.OCRModels.OCRResponseModel;
 import com.sample.pronunciation.model.OCRModels.ParsedResult;
 
@@ -62,10 +62,10 @@ public class ApiService {
         String base64String = //Base64.encodeToString(FileUtils.readFileToByteArray(file), Base64.DEFAULT);
                 "https://www.warm-glass.co.uk/images/products/block-letters-decal-XqUA.jpg";
 
-        Call<OCRResponseModel> call =   mEndPointsInterface.createOCRRequest(
-                                                GlobalConstants.API_KEY,
-                                                base64String, "eng",
-                                                isOverlayRequired);
+        Call<OCRResponseModel> call =   mEndPointsInterface.createOCRRequest(GlobalConstants.API_KEY,
+                                                                                base64String,
+                                                                                "eng",
+                                                                                isOverlayRequired);
 
         call.enqueue(new Callback<OCRResponseModel>() {
             @Override

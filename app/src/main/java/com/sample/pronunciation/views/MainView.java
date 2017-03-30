@@ -1,4 +1,4 @@
-package com.sample.pronunciation.Views;
+package com.sample.pronunciation.views;
 
 /**
  * Created by Bharath on 27/03/17, March, 2017.

@@ -1,7 +1,7 @@
 package com.sample.pronunciation.presenter;
 
 
-import com.sample.pronunciation.Views.MainView;
+import com.sample.pronunciation.views.MainView;
 
 public class MainPresenterImpl implements Presenter {
 

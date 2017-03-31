@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class ResultsAdapter extends RecyclerView.Adapter<ResultsAdapter.ViewHolder> {
 
-    private List<ParsedResult> results;
+    private final List<ParsedResult> results;
 
     public ResultsAdapter(ArrayList<ParsedResult> results) {
         this.results = results;

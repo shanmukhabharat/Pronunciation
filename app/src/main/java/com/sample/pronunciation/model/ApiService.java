@@ -18,14 +18,30 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
-public class ApiService {
+public class ApiService implements Callback<OCRResponseModel>{
 
     public static final String TAG = ApiService.class.getSimpleName();
 
+    private static ApiService apiService;
     private Retrofit mRetrofitInstance;
     private ApiEndpoints mEndPointsInterface;
+    private final ApiResultsListener mApiResultsListener;
 
-    public ApiService(){
+    public interface ApiResultsListener{
+        void showResults(List<ParsedResult> results);
+        void showFailure(Throwable throwable);
+    }
+
+    public static ApiService newInstance(ApiResultsListener apiResultsListener){
+
+        if(apiService == null){
+            apiService = new ApiService(apiResultsListener);
+        }
+
+        return apiService;
+    }
+
+    private ApiService(ApiResultsListener apiResultsListener){
 
         if(mRetrofitInstance == null){
 
@@ -50,9 +66,10 @@ public class ApiService {
 
         }
 
+        this.mApiResultsListener = apiResultsListener;
     }
 
-    public void getOCRResult(String imagePath, String language, boolean isOverlayRequired) throws IOException{
+    public void doScan(String imagePath, String language, boolean isOverlayRequired){
 
 //        MediaType MEDIA_TYPE_PNG = MediaType.parse("multipart/form-data");
 //        File file = new File(imagePath);
@@ -67,18 +84,17 @@ public class ApiService {
                                                                                 "eng",
                                                                                 isOverlayRequired);
 
-        call.enqueue(new Callback<OCRResponseModel>() {
-            @Override
-            public void onResponse(Call<OCRResponseModel> call, Response<OCRResponseModel> response) {
-                List<ParsedResult> results = response.body().getParsedResults();
-                Log.d(TAG, "response : "+response.toString());
-            }
-
-            @Override
-            public void onFailure(Call<OCRResponseModel> call, Throwable t) {
-                Log.e(TAG, t.getMessage());
-            }
-        });
+        call.enqueue(this);
     }
 
+    @Override
+    public void onResponse(Call<OCRResponseModel> call, Response<OCRResponseModel> response) {
+        List<ParsedResult> results = response.body().getParsedResults();
+        mApiResultsListener.showResults(results);
+    }
+
+    @Override
+    public void onFailure(Call<OCRResponseModel> call, Throwable throwable) {
+        mApiResultsListener.showFailure(throwable);
+    }
 }

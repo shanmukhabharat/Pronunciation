@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,15 +12,28 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.sample.pronunciation.R;
-import com.sample.pronunciation.views.MainView;
+import com.sample.pronunciation.presenter.MainPresenterImpl;
+import com.sample.pronunciation.views.MainViewFunctionalities;
 
-public class ResultsFragment extends Fragment implements MainView {
+import butterknife.Bind;
 
-    private OnFragmentInteractionListener mListener;
-    private RecyclerView mRecyclerView;
-    private ProgressBar mProgressBar;
+public class ResultsFragment extends Fragment implements MainViewFunctionalities.ResultsFragmentFunctions {
+
+    private MainPresenterImpl mMainPresenter;
+
+    private ResultsFragmentInteraction mListener;
+
+    @Bind(R.id.recyclerView)
+    RecyclerView mRecyclerView;
+
+    @Bind(R.id.progressBar)
+    ProgressBar mProgressBar;
 
     public ResultsFragment() {
+    }
+
+    public interface ResultsFragmentInteraction {
+        void onFragmentInteraction(Uri uri);
     }
 
     public static ResultsFragment newInstance() {
@@ -29,6 +43,8 @@ public class ResultsFragment extends Fragment implements MainView {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mMainPresenter = MainPresenterImpl.getInstance(this);
     }
 
     @Override
@@ -37,7 +53,7 @@ public class ResultsFragment extends Fragment implements MainView {
 
 
         View fragmentView = inflater.inflate(R.layout.fragment_results_layout, container, false);
-        mRecyclerView = (RecyclerView) fragmentView.findViewById(R.id.recyclerView);
+
         return fragmentView;
     }
 
@@ -60,7 +76,7 @@ public class ResultsFragment extends Fragment implements MainView {
     }
 
     @Override
-    public void showProgress() {
+    public void startProgress() {
 
     }
 
@@ -94,7 +110,8 @@ public class ResultsFragment extends Fragment implements MainView {
 
     }
 
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
+    @Override
+    public void showFailure() {
+
     }
 }

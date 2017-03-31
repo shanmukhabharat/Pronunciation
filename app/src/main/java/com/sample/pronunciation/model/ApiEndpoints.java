@@ -9,7 +9,7 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 
 
-public interface ApiEndpoints {
+interface ApiEndpoints {
 
     @FormUrlEncoded
     @POST("image")

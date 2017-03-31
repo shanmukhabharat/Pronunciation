@@ -17,18 +17,18 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-
 import java.io.IOException;
 import java.util.List;
 
+
 public class CameraFragment extends Fragment {
 
-    Camera mCamera;
-    int mNumberOfCameras;
-    int mCurrentCamera;  // Camera ID currently chosen
-    int mCameraCurrentlyLocked;  // Camera ID that's actually acquired
+    private Camera mCamera;
+    private int mNumberOfCameras;
+    private int mCurrentCamera;  // Camera ID currently chosen
+    private int mCameraCurrentlyLocked;  // Camera ID that's actually acquired
     // The first rear facing camera
-    int mDefaultCameraId;
+    private int mDefaultCameraId;
     private Preview mPreview;
 
     @Override
@@ -91,6 +91,8 @@ public class CameraFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         return true;
     }
+
+
 }
 // ----------------------------------------------------------------------
 
@@ -103,12 +105,12 @@ public class CameraFragment extends Fragment {
 class Preview extends ViewGroup implements SurfaceHolder.Callback {
 
     private final String TAG = "Preview";
-    SurfaceView mSurfaceView;
-    SurfaceHolder mHolder;
-    Size mPreviewSize;
-    List<Size> mSupportedPreviewSizes;
-    Camera mCamera;
-    boolean mSurfaceCreated = false;
+    private final SurfaceView mSurfaceView;
+    private final SurfaceHolder mHolder;
+    private Size mPreviewSize;
+    private List<Size> mSupportedPreviewSizes;
+    private Camera mCamera;
+    private boolean mSurfaceCreated = false;
 
     Preview(Context context) {
         super(context);

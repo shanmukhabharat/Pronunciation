@@ -23,10 +23,15 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile files('libs/okhttp-3.5.0.jar')
     compile files('libs/gson-2.2.2.jar')
+    compile files('libs/retrofit-2.1.0.jar')
+    compile files('libs/logging-interceptor-3.6.0.jar')
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.android.support:design:22.2.1'
     compile 'com.android.support:recyclerview-v7:22.2.1'
     compile 'com.android.support:support-v4:22.2.1'
+    //compile 'com.jakewharton:butterknife:8.5.1'
+    //annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    compile files('libs/butterknife-7.0.1.jar')
 }
 
 

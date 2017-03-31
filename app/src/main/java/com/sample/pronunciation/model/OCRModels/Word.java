@@ -3,7 +3,7 @@ package com.sample.pronunciation.model.OCRModels;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Word {
+class Word {
 
     @SerializedName("WordText")
     @Expose

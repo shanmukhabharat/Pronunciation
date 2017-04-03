@@ -5,23 +5,24 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.LinearLayout;
+
 import com.sample.pronunciation.R;
 import com.sample.pronunciation.presenter.MainPresenterImpl;
 import com.sample.pronunciation.views.MainViewFunctionalities;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends FragmentActivity implements MainViewFunctionalities.ActivityFunctions {
 
-    @Bind(R.id.toolbar)
+    @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    @Bind(R.id.fab_search)
+    @BindView(R.id.fab_search)
     FloatingActionButton fab;
 
-    @Bind(R.id.fragments_parent)
+    @BindView(R.id.fragments_parent)
     LinearLayout fragmentsParent;
 
     private MainPresenterImpl mainPresenter;
@@ -37,13 +38,13 @@ public class MainActivity extends FragmentActivity implements MainViewFunctional
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onResume() {
+        super.onResume();
     }
 
     @OnClick(R.id.fab_search)

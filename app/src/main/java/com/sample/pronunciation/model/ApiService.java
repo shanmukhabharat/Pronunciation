@@ -1,13 +1,7 @@
 package com.sample.pronunciation.model;
 
-import android.util.Log;
-
-import com.sample.pronunciation.utils.GlobalConstants;
 import com.sample.pronunciation.model.OCRModels.OCRResponseModel;
-import com.sample.pronunciation.model.OCRModels.ParsedResult;
-
-import java.io.IOException;
-import java.util.List;
+import com.sample.pronunciation.utils.GlobalUtils;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
@@ -28,7 +22,7 @@ public class ApiService implements Callback<OCRResponseModel>{
     private final ApiResultsListener mApiResultsListener;
 
     public interface ApiResultsListener{
-        void showResults(List<ParsedResult> results);
+        void handleResponse(OCRResponseModel response);
         void showFailure(Throwable throwable);
     }
 
@@ -46,18 +40,15 @@ public class ApiService implements Callback<OCRResponseModel>{
         if(mRetrofitInstance == null){
 
             HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
-
-            // set your desired log level
+            
             logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
             OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
-            // add your other interceptors …
-
-            // add logging as last interceptor
+            
             httpClient.addInterceptor(logging);
 
             mRetrofitInstance = new Retrofit.Builder()
-                                    .baseUrl(GlobalConstants.API_URL)
+                                    .baseUrl(GlobalUtils.API_URL)
                                     .addConverterFactory(GsonConverterFactory.create())
                                     .client(httpClient.build())
                                     .build();
@@ -79,9 +70,9 @@ public class ApiService implements Callback<OCRResponseModel>{
         String base64String = //Base64.encodeToString(FileUtils.readFileToByteArray(file), Base64.DEFAULT);
                 "https://www.warm-glass.co.uk/images/products/block-letters-decal-XqUA.jpg";
 
-        Call<OCRResponseModel> call =   mEndPointsInterface.createOCRRequest(GlobalConstants.API_KEY,
+        Call<OCRResponseModel> call =   mEndPointsInterface.createOCRRequest(GlobalUtils.API_KEY,
                                                                                 base64String,
-                                                                                "eng",
+                                                                                "chs",
                                                                                 isOverlayRequired);
 
         call.enqueue(this);
@@ -89,8 +80,7 @@ public class ApiService implements Callback<OCRResponseModel>{
 
     @Override
     public void onResponse(Call<OCRResponseModel> call, Response<OCRResponseModel> response) {
-        List<ParsedResult> results = response.body().getParsedResults();
-        mApiResultsListener.showResults(results);
+        mApiResultsListener.handleResponse(response.body());
     }
 
     @Override

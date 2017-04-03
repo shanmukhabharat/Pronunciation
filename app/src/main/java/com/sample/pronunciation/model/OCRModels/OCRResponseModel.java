@@ -13,7 +13,7 @@ public class OCRResponseModel {
 
     @SerializedName("OCRExitCode")
     @Expose
-    private String oCRExitCode;
+    private String OCRExitCode;
 
     @SerializedName("IsErroredOnProcessing")
     @Expose
@@ -40,11 +40,11 @@ public class OCRResponseModel {
     }
 
     public String getOCRExitCode() {
-        return oCRExitCode;
+        return OCRExitCode;
     }
 
     public void setOCRExitCode(String oCRExitCode) {
-        this.oCRExitCode = oCRExitCode;
+        this.OCRExitCode = oCRExitCode;
     }
 
     public Boolean getIsErroredOnProcessing() {

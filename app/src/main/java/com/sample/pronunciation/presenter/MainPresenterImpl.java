@@ -92,29 +92,29 @@ public class MainPresenterImpl implements Presenter,
 		List<ParsedResult> results;
 		
 		if (response.getIsErroredOnProcessing()) {
-			throw new ApiServiceException((String) response.getErrorMessage());
+			mResultsFragmentFunctions.showFailure((String)response.getErrorMessage());
 		}
 		
 		if (response.getOCRExitCode().equals(GlobalUtils.EXIT_CODE_SUCCESS) ||
 				    response.getOCRExitCode().equals(GlobalUtils.EXIT_CODE_PARTIAL_SUCCESS)) {
 			
 			results = response.getParsedResults();
-			
+
+			mResultsFragmentFunctions.showResult();
+
 		} else {
-			throw new ApiServiceException(GlobalUtils.getMessageFromExitCode(
-					response.getOCRExitCode()));
+			mResultsFragmentFunctions.showFailure(GlobalUtils.getMessageFromExitCode(response.getOCRExitCode()));
 		}
-		
-		
-		
 	}
 	
 	@Override
-	public void showFailure(Throwable throwable) {
+	public void showFailure(String message) {
 		
 		mResultsFragmentFunctions.stopProgress();
-		mResultsFragmentFunctions.showFailure();
+		mResultsFragmentFunctions.showFailure(message);
 	}
+
+
 	
 	@Override
 	public void onItemClicked(int position) {

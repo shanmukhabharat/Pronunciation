@@ -23,7 +23,7 @@ public class ApiService implements Callback<OCRResponseModel>{
 
     public interface ApiResultsListener{
         void handleResponse(OCRResponseModel response);
-        void showFailure(Throwable throwable);
+        void showFailure(String message);
     }
 
     public static ApiService newInstance(ApiResultsListener apiResultsListener){
@@ -85,6 +85,6 @@ public class ApiService implements Callback<OCRResponseModel>{
 
     @Override
     public void onFailure(Call<OCRResponseModel> call, Throwable throwable) {
-        mApiResultsListener.showFailure(throwable);
+        mApiResultsListener.showFailure(throwable.getMessage());
     }
 }

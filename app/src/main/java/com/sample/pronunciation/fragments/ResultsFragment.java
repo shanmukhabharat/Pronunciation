@@ -17,6 +17,7 @@ import com.sample.pronunciation.views.MainViewFunctionalities;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+
 public class ResultsFragment extends Fragment implements MainViewFunctionalities.ResultsFragmentFunctions {
 	
 	private MainPresenterImpl mMainPresenter;
@@ -121,7 +122,7 @@ public class ResultsFragment extends Fragment implements MainViewFunctionalities
 	}
 	
 	@Override
-	public void showFailure() {
+	public void showFailure(String message) {
 		
 	}
 }

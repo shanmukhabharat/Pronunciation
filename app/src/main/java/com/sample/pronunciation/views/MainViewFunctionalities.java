@@ -25,7 +25,7 @@ public interface MainViewFunctionalities {
 
         void getAllItems();
 
-        void showFailure();
+        void showFailure(String message);
 
     }
 }

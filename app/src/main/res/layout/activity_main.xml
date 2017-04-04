@@ -44,12 +44,13 @@
     </LinearLayout>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
+        android:clickable="true"
         app:elevation="24dp"
         app:layout_anchor="@id/results_fragment"
-        app:layout_anchorGravity="top|center"
-        android:id="@+id/fab_search"/>
+        app:layout_anchorGravity="top|center" />
 
 </android.support.design.widget.CoordinatorLayout>

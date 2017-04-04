@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.LinearLayout;
 
 import com.sample.pronunciation.R;
@@ -32,6 +33,7 @@ public class MainActivity extends FragmentActivity implements MainViewFunctional
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ButterKnife.setDebug(true);
         ButterKnife.bind(this);
 
         mainPresenter = MainPresenterImpl.getInstance(this);
@@ -48,7 +50,7 @@ public class MainActivity extends FragmentActivity implements MainViewFunctional
     }
 
     @OnClick(R.id.fab_search)
-    public void startScan(){
+    public void startScan(View view){
         mainPresenter.startScan();
     }
 }

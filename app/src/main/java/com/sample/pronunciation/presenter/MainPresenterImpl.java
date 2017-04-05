@@ -5,7 +5,6 @@ import android.util.Log;
 import com.sample.pronunciation.model.ApiService;
 import com.sample.pronunciation.model.OCRModels.OCRResponseModel;
 import com.sample.pronunciation.model.OCRModels.ParsedResult;
-import com.sample.pronunciation.utils.ApiServiceException;
 import com.sample.pronunciation.utils.GlobalUtils;
 import com.sample.pronunciation.views.MainViewFunctionalities;
 
@@ -117,8 +116,8 @@ public class MainPresenterImpl implements Presenter,
 
 	
 	@Override
-	public void onItemClicked(int position) {
-		
+	public void onItemClicked(int position, ParsedResult resultItem) {
+		//Todo  :   Get the item from dictionary and show
 	}
 	
 }

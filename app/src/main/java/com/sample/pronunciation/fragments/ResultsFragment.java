@@ -11,18 +11,18 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.sample.pronunciation.R;
+import com.sample.pronunciation.adapters.ScanResultsAdapter;
+import com.sample.pronunciation.model.OCRModels.ParsedResult;
 import com.sample.pronunciation.presenter.MainPresenterImpl;
 import com.sample.pronunciation.views.MainViewFunctionalities;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
-public class ResultsFragment extends Fragment implements MainViewFunctionalities.ResultsFragmentFunctions {
-	
-	private MainPresenterImpl mMainPresenter;
-	
-	private ResultsFragmentInteraction mListener;
+public class ResultsFragment extends Fragment implements MainViewFunctionalities.ResultsFragmentFunctions,
+                                                         ScanResultsAdapter.OnItemClickListener {
 	
 	@BindView(R.id.recyclerView)
 	RecyclerView mRecyclerView;
@@ -30,13 +30,16 @@ public class ResultsFragment extends Fragment implements MainViewFunctionalities
 	@BindView(R.id.progressBar)
 	ProgressBar mProgressBar;
 	
+	private MainPresenterImpl mMainPresenter;
+	
+	private ResultsFragmentInteraction mListener;
+	
+	private ScanResultsAdapter mScanResultsAdapter;
+	
+	private Unbinder unbinder;
+	
 	public ResultsFragment() {
 		
-	}
-	
-	public interface ResultsFragmentInteraction {
-		
-		void onFragmentInteraction(Uri uri);
 	}
 	
 	public static ResultsFragment newInstance() {
@@ -59,9 +62,15 @@ public class ResultsFragment extends Fragment implements MainViewFunctionalities
 		
 		View fragmentView = inflater.inflate(R.layout.fragment_results_layout, container, false);
 		
-		ButterKnife.bind(this, fragmentView);
+		unbinder = ButterKnife.bind(this, fragmentView);
 		
 		return fragmentView;
+	}
+	
+	@Override
+	public void onAttach(Activity activity) {
+		
+		super.onAttach(activity);
 	}
 
 
@@ -72,16 +81,16 @@ public class ResultsFragment extends Fragment implements MainViewFunctionalities
 //    }
 	
 	@Override
-	public void onAttach(Activity activity) {
-		
-		super.onAttach(activity);
-	}
-	
-	@Override
 	public void onDetach() {
 		
 		super.onDetach();
 		mListener = null;
+	}
+	
+	@Override
+	public void onItemClicked(int position, ParsedResult resultItem) {
+		
+		mMainPresenter.onItemClicked(position, resultItem);
 	}
 	
 	@Override
@@ -124,5 +133,15 @@ public class ResultsFragment extends Fragment implements MainViewFunctionalities
 	@Override
 	public void showFailure(String message) {
 		
+	}
+	
+	@Override
+	public void showDictionaryEntry() {
+		
+	}
+	
+	public interface ResultsFragmentInteraction {
+		
+		void onFragmentInteraction(Uri uri);
 	}
 }

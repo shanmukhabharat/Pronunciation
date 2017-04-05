@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.sample.pronunciation.R;
+import com.sample.pronunciation.model.OCRModels.OCRResponseModel;
 import com.sample.pronunciation.presenter.MainPresenterImpl;
 import com.sample.pronunciation.views.MainViewFunctionalities;
 
@@ -52,5 +53,10 @@ public class MainActivity extends FragmentActivity implements MainViewFunctional
     @OnClick(R.id.fab_search)
     public void startScan(View view){
         mainPresenter.startScan();
+    }
+
+    @Override
+    public void startDictionaryFragment(OCRResponseModel model) {
+        //Todo : start dictionary fragment by passing response model (parcelable)
     }
 }

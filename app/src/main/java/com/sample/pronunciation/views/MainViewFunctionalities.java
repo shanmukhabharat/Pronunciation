@@ -9,7 +9,7 @@ import com.sample.pronunciation.model.OCRModels.OCRResponseModel;
 public interface MainViewFunctionalities {
 	
 	interface ActivityFunctions {
-		
+		void startDictionaryFragment(OCRResponseModel model);
 	}
 	
 	interface ResultsFragmentFunctions {

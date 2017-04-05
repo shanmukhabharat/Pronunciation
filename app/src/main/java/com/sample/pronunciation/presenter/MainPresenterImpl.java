@@ -113,6 +113,7 @@ public class MainPresenterImpl implements Presenter,
 	@Override
 	public void onItemClicked(int position, OCRResponseModel resultItem) {
 		//Todo  :   Get the item from dictionary and show
+		mActivityFunctions.startDictionaryFragment(resultItem);
 	}
 	
 }

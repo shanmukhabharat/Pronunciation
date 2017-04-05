@@ -152,7 +152,7 @@ public class ResultsFragment extends Fragment implements MainViewFunctionalities
 		mMainPresenter.onItemClicked(position, resultItem);
 	}
 
-	public interface ResultsFragmentInteraction {
+	interface ResultsFragmentInteraction {
 		
 		void onFragmentInteraction(Uri uri);
 	}

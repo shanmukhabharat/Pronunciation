@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  * Created by bharat.vakalapudi on 4/4/2017.
  */
 
-public class ScanResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ScanResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>   {
 
     private final String TAG = ScanResultsAdapter.class.getSimpleName();
 
@@ -63,7 +63,6 @@ public class ScanResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                         .inflate(R.layout.recyclerview_header, parent, false);
                 return new HeaderViewHolder(itemView);
 
-
             case VIEW_TYPE_PARSED_RESULT:
                 itemView = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.recyclerview_result_item, parent, false);
@@ -94,14 +93,8 @@ public class ScanResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
                 break;
             case VIEW_TYPE_PARSED_RESULT:
                 Log.d(TAG, "position : " + position + " type result");
+                //Todo : link the item to presenter
         }
-
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mListener.onItemClicked(position, mScanResults.get(position));
-            }
-        });
     }
 
     @Override

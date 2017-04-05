@@ -18,9 +18,9 @@ public class ScanResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private List<ParsedResult> mScanResults;
     private int NUM_OF_HEADERS;
-    private int VIEW_TYPE_SEARCH_BAR = 1;
-    private int VIEW_TYPE_HEADER = 2;
-    private int VIEW_TYPE_PARSED_RESULT = 3;
+    private final int VIEW_TYPE_SEARCH_BAR = 1;
+    private final int VIEW_TYPE_HEADER = 2;
+    private final int VIEW_TYPE_PARSED_RESULT = 3;
 
     public ScanResultsAdapter(List<ParsedResult> scanResults, int numOfHeaders) {
         this.mScanResults = scanResults;
@@ -34,17 +34,22 @@ public class ScanResultsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         switch (viewType){
             case VIEW_TYPE_HEADER   :   itemView =  LayoutInflater.from(parent.getContext())
-                                                                    .inflate(R.layout.recyclerview_header, parent, false);
+                                                    .inflate(R.layout.recyclerview_header, parent, false);
                                         return new HeaderViewHolder(itemView);
 
 
             case VIEW_TYPE_PARSED_RESULT    :   itemView =  LayoutInflater.from(parent.getContext())
-                                                                            .inflate(R.layout.recyclerview_header, parent, false);
+                                                            .inflate(R.layout.recyclerview_result_item, parent, false);
                                                 return new ViewHolder(itemView);
 
             case VIEW_TYPE_SEARCH_BAR   :   itemView =  LayoutInflater.from(parent.getContext())
-                                                                        .inflate(R.layout.recyclerview_search, parent, false);
+                                                        .inflate(R.layout.recyclerview_search, parent, false);
                                             return new SearchViewHolder(itemView);
+
+            default :   itemView =  LayoutInflater.from(parent.getContext())
+                                    .inflate(R.layout.recyclerview_result_item, parent, false);
+                        return new ViewHolder(itemView);
+
         }
     }
 

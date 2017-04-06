@@ -88,18 +88,14 @@ public class MainPresenterImpl implements Presenter,
 		
 		Log.d(TAG, "handleResponse() : " + response.toString());
 		
-		List<ParsedResult> results;
-		
 		if (response.getIsErroredOnProcessing()) {
 			mResultsFragmentFunctions.showFailure((String)response.getErrorMessage());
 		}
 		
 		if (response.getOCRExitCode().equals(GlobalUtils.EXIT_CODE_SUCCESS) ||
 				    response.getOCRExitCode().equals(GlobalUtils.EXIT_CODE_PARTIAL_SUCCESS)) {
-			
-			results = response.getParsedResults();
 
-			mResultsFragmentFunctions.showResult();
+			mResultsFragmentFunctions.addResultAtStart(response);
 
 		} else {
 			mResultsFragmentFunctions.showFailure(GlobalUtils.getMessageFromExitCode(response.getOCRExitCode()));
@@ -113,11 +109,11 @@ public class MainPresenterImpl implements Presenter,
 		mResultsFragmentFunctions.showFailure(message);
 	}
 
-
 	
 	@Override
-	public void onItemClicked(int position, ParsedResult resultItem) {
+	public void onItemClicked(int position, OCRResponseModel resultItem) {
 		//Todo  :   Get the item from dictionary and show
+		mActivityFunctions.startDictionaryFragment(resultItem);
 	}
 	
 }

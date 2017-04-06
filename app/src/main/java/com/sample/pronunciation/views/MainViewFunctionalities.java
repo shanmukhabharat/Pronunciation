@@ -1,15 +1,18 @@
 package com.sample.pronunciation.views;
 
+import com.sample.pronunciation.adapters.ScanResultsAdapter;
+import com.sample.pronunciation.model.OCRModels.OCRResponseModel;
+
 /**
  * Created by Bharath on 27/03/17, March, 2017.
  */
 public interface MainViewFunctionalities {
 	
-	public interface ActivityFunctions {
-		
+	interface ActivityFunctions {
+		void startDictionaryFragment(OCRResponseModel model);
 	}
 	
-	public interface ResultsFragmentFunctions {
+	interface ResultsFragmentFunctions {
 		
 		void startProgress();
 		
@@ -18,6 +21,8 @@ public interface MainViewFunctionalities {
 		void showAllItems();
 		
 		void showResult();
+
+		void addResultAtStart(OCRResponseModel model);
 		
 		void deleteItem();
 		
@@ -28,6 +33,8 @@ public interface MainViewFunctionalities {
 		void showFailure(String message);
 		
 		void showDictionaryEntry();
+
+		void setAdapter(ScanResultsAdapter adapter);
 		
 	}
 }
